@@ -51,7 +51,6 @@ export function LeadForm() {
       const data = await response.json();
 
       if (!response.ok) {
-        setSubmissionState("error");
         throw new Error(data.error || "Submission failed");
       }
 

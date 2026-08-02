@@ -14,6 +14,7 @@ const primaryButton =
   "inline-flex min-h-[52px] w-full cursor-pointer items-center justify-center rounded-full border-0 bg-[#da6b4d] px-[22px] py-3 font-extrabold leading-[1.2] text-[#29160f] shadow-[0_9px_25px_rgba(134,59,39,0.19)] transition-[background-color,color,scale] duration-140 hover:bg-[#e47a5d] active:scale-96 disabled:cursor-wait disabled:opacity-65 motion-reduce:transition-none";
 
 export function LeadForm() {
+  const [preferredContact, setPreferredContact] = useState("email");
   const [submissionState, setSubmissionState] =
     useState<SubmissionState>("idle");
 
@@ -32,7 +33,6 @@ export function LeadForm() {
     const form = event.currentTarget;
     const formData = new FormData(form);
     const fullName = formData.get("fullName")?.toString() || "";
-
     try {
       const response = await fetch(`${API_URL}/leads`, {
         method: "POST",
@@ -42,6 +42,7 @@ export function LeadForm() {
           email: formData.get("email"),
           phoneNumber: formData.get("phone"),
           serviceType: formData.get("service"),
+          preferredContact,
           message: formData.get("message"),
           consent: formData.get("consent") === "on",
         }),
@@ -116,6 +117,37 @@ export function LeadForm() {
             placeholder="(555) 010-0184"
             required
           />
+        </div>
+      </div>
+      <div className={field}>
+        <label className={fieldLabel}>
+          How would you like us to contact you?
+        </label>
+
+        <div className="grid grid-cols-2 gap-4 mt-3">
+          <label className="flex items-center gap-3 border border-red-300 rounded-xl px-4 py-3 cursor-pointer hover:bg-muted">
+            <input
+              type="radio"
+              name="preferredContact"
+              value="email"
+              checked={preferredContact === "email"}
+              onChange={(e) => setPreferredContact(e.target.value)}
+              className="accent-[#D97757]"
+            />
+            <span>Email</span>
+          </label>
+
+          <label className="flex items-center gap-3 border border-red-300 rounded-xl px-4 py-3 cursor-pointer hover:bg-muted">
+            <input
+              type="radio"
+              name="preferredContact"
+              checked={preferredContact === "phone"}
+              onChange={(e) => setPreferredContact(e.target.value)}
+              value="phone"
+              className="accent-[#D97757]"
+            />
+            <span>Phone</span>
+          </label>
         </div>
       </div>
 

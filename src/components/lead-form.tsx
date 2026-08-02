@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 
 type SubmissionState = "idle" | "sending" | "success" | "error";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const serif = "[font-family:Georgia,'Times_New_Roman',serif]";
 const field = "grid gap-[7px]";
 const fieldLabel = "text-[0.88rem] font-extrabold";
